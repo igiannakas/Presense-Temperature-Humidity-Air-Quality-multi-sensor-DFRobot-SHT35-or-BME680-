@@ -82,3 +82,12 @@ Finally if you are using the SHT35 sensor, I have implemented a variable in Home
 # Sensor case
 I've designed a basic case for the sensor which should provide a snug fit to its components. The STL files can be found here: https://www.printables.com/model/520547-esp32-temperature-and-optional-mmwave-radar-presen
 
+# Images
+
+
+![4](https://github.com/igiannakas/Presense-Temperature-Humidity-Air-Quality-multi-sensor-DFRobot-SHT35-or-BME680-/assets/59056762/8fc328fb-440e-4ad3-8e84-b08441062752)
+![5](https://github.com/igiannakas/Presense-Temperature-Humidity-Air-Quality-multi-sensor-DFRobot-SHT35-or-BME680-/assets/59056762/14958fe0-bc12-4dc0-b12c-8d23aa47a988)
+![6](https://github.com/igiannakas/Presense-Temperature-Humidity-Air-Quality-multi-sensor-DFRobot-SHT35-or-BME680-/assets/59056762/b7d012fd-cb62-41dd-8ce6-a01617784b3d)
+![7](https://github.com/igiannakas/Presense-Temperature-Humidity-Air-Quality-multi-sensor-DFRobot-SHT35-or-BME680-/assets/59056762/99a86c6f-b173-4e20-9dd9-7b4d52ff69bb)
+
+
