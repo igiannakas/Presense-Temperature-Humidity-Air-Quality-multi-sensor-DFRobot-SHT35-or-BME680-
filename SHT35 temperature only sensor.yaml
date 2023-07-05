@@ -1,0 +1,99 @@
+substitutions:
+  device_name: sht-temperature-sensor
+  device_name_pretty: SHT Sensor
+  # change the below to be your WiFi SSID
+  ssid: SSID
+  # change the below to be your WiFi password
+  wifi_password: PASSWORD
+  # sleep duration
+  sleep_duration: 180s
+  #temperature sensor SDA pin
+  sda_pin: "18"
+  #temperature sensor SCL pin
+  scl_pin: "19"
+
+esp32:
+  board: wemos_d1_mini32
+  framework:
+    type: arduino
+
+# Enable Home Assistant API
+api:
+  password: ""
+
+ota:
+  password: ""
+
+wifi:
+  ssid: "${ssid}"
+  password: "${wifi_password}"
+  fast_connect: true
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "${device_name_pretty}"
+    password: "${wifi_password}"
+
+i2c:
+  - id: bus_sht
+    sda: ${sda_pin}
+    scl: ${scl_pin}
+    scan: false
+
+deep_sleep:
+  id: deep_sleep_1
+
+esphome:
+  name: $device_name
+  on_boot:
+    then:
+    - wait_until:
+        condition:
+          api.connected:
+    - component.update: temp_humidity_sensor
+    - delay: 500ms
+    - component.update: temp_humidity_sensor
+    - delay: 500ms
+    - component.update: temp_humidity_sensor
+    - delay: 500ms
+    #- component.update: temp_humidity_sensor
+    - if:
+        condition:
+          binary_sensor.is_off: prevent_sleep
+        then:
+          - deep_sleep.enter:
+              sleep_duration: ${sleep_duration}
+
+binary_sensor:
+  - platform: homeassistant
+    entity_id: input_boolean.sht_sensor_prevent_sleep
+    id: prevent_sleep
+    on_press:
+      - deep_sleep.prevent: deep_sleep_1
+    on_release: 
+      - deep_sleep.enter:
+          sleep_duration: ${sleep_duration}  
+
+sensor:
+  - platform: sht3xd
+    i2c_id: bus_sht
+    id: temp_humidity_sensor
+    address: 0x45
+    update_interval: never
+    temperature:
+      name: "${device_name_pretty} Temperature"
+      accuracy_decimals: 2
+      force_update: true
+      filters:
+        - offset: -0.09 # adjust offset accordingly to eliminate self heating impact
+        - sliding_window_moving_average:
+            window_size: 3
+            send_every: 3
+    humidity:
+      name: "${device_name_pretty} Humidity"
+      filters:
+        - sliding_window_moving_average:
+            window_size: 3
+            send_every: 3
+
+
