@@ -67,65 +67,57 @@ bme680_bsec:
   address: 0x77
   sample_rate: lp
   state_save_interval: 1h
-  temperature_offset: 2.22 #calibration till the 5th July
+  #temperature_offset: 1.41  #(calibration without mmWave radar & v2 case version)
+  temperature_offset: 2.48   #(calibration with mmWave radar & v1 case version)
 
 sensor:
   - platform: bme680_bsec
     temperature:
       # Temperature in °C
-      name: "Study Temperature"
+      name: "${entity_name_pretty} Temperature"
       sample_rate: lp
       accuracy_decimals: 2
       filters:
         - sliding_window_moving_average:
             window_size: 20
             send_every: 20
+        
     pressure:
-      # Pressure in hPa
-      name: "Study Pressure"
+      name: "${entity_name_pretty} Pressure"
       sample_rate: lp
       filters:
         - median
     humidity:
-      # Relative humidity %
-      name: "Study Humidity"
+      name: "${entity_name_pretty} Humidity"
       sample_rate: lp
       filters:
         - median
     gas_resistance:
-      # Gas resistance in Ω
-      name: "Study Gas Resistance"
+      name: "${entity_name_pretty} Gas Resistance"
       filters:
         - median
     iaq:
-      # Indoor air quality value
-      name: "Study IAQ"
+      name: "${entity_name_pretty} IAQ"
       id: iaq
       filters:
         - median
     iaq_accuracy:
-      # IAQ accuracy as a numeric value of 0, 1, 2, 3
-      name: "Study Numeric IAQ Accuracy"
+      name: "${entity_name_pretty} IAQ Accuracy"
     co2_equivalent:
-      # CO2 equivalent estimate in ppm
-      name: "Study CO2 Equivalent"
+      name: "${entity_name_pretty} CO2 Equivalent"
       filters:
         - median
     breath_voc_equivalent:
-      # Volatile organic compounds equivalent estimate in ppm
-      name: "Study Breath VOC Equivalent"
+      name: "${entity_name_pretty} Breath VOC Equivalent"
       filters:
         - median
-        
 
 text_sensor:
   - platform: bme680_bsec
     iaq_accuracy:
-      # IAQ accuracy as a text value of Stabilizing, Uncertain, Calibrating, Calibrated
-      name: "Study IAQ Accuracy"
-      
+      name: "${entity_name_pretty} IAQ Accuracy"
   - platform: template
-    name: "Study Air Quality"
+    name: "${entity_name_pretty} Air Quality"
     icon: "mdi:checkbox-marked-circle-outline"
     lambda: |-
       if ( int(id(iaq).state) <= 50) {
