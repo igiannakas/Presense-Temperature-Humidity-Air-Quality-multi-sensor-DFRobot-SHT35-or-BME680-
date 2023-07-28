@@ -46,6 +46,7 @@ deep_sleep:
 esphome:
   name: $device_name
   on_boot:
+    priority: -108
     then:
     - wait_until:
         condition:
@@ -53,9 +54,7 @@ esphome:
     - component.update: temp_humidity_sensor
     - delay: 500ms
     - component.update: temp_humidity_sensor
-    - delay: 500ms
-    - component.update: temp_humidity_sensor
-    - delay: 500ms
+    - delay: 2000ms
     #- component.update: temp_humidity_sensor
     - if:
         condition:
@@ -85,15 +84,7 @@ sensor:
       accuracy_decimals: 2
       force_update: true
       filters:
-        - offset: -0.09 # adjust offset accordingly to eliminate self heating impact
-        - sliding_window_moving_average:
-            window_size: 3
-            send_every: 3
+        - offset: -0.21 # latest case
     humidity:
       name: "${device_name_pretty} Humidity"
-      filters:
-        - sliding_window_moving_average:
-            window_size: 3
-            send_every: 3
-
 
