@@ -67,7 +67,7 @@ bme680_bsec:
   address: 0x77
   sample_rate: lp
   state_save_interval: 1h
-  #temperature_offset: 1.41  #(calibration without mmWave radar & v2 case version)
+  #temperature_offset: 1.42  #(calibration without mmWave radar & v2 case version)
   temperature_offset: 2.48   #(calibration with mmWave radar & v1 case version)
 
 sensor:
